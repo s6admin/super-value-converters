@@ -48,8 +48,9 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
             var settings = GetSettings(propertyType);
 
             var modelType = typeof(IPublishedContent);
-
-            if (settings.AllowedDoctypes.Any() == true)
+			// S6 added null check
+            if (settings.AllowedDoctypes != null &&
+				settings.AllowedDoctypes.Any() == true)
             {
                 if (ModelsBuilderHelper.IsEnabled() == true)
                 {
