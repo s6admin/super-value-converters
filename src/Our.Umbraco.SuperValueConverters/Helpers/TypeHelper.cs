@@ -8,11 +8,25 @@ namespace Our.Umbraco.SuperValueConverters.Helpers
     internal class TypeHelper
     {
         public static Type GetType(string typeName, string namespaceName = null)
-        {
-            var types = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(x => x.GetTypes())
-                .Where(x => x != null)
-                .Where(x => x.IsClass);
+		{ 
+			var types = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(x => {
+					// S6 Added try/catch otherwise some assemblies could throw: Unable to load one or more of the requested types. Retrieve the LoaderExceptions property for more information.
+					try
+					{
+							return x.GetTypes();
+						} catch(Exception ex)
+						{						
+							Console.WriteLine(ex);
+							return Enumerable.Empty<Type>();
+						}					
+					})
+                .Where(x => {
+					return (x != null);
+					})
+                .Where(x => {
+					return x.IsClass;
+					});
 
             if (string.IsNullOrEmpty(namespaceName) == false)
             {
@@ -21,12 +35,12 @@ namespace Our.Umbraco.SuperValueConverters.Helpers
                     .Where(x => x.Namespace.Equals(namespaceName, StringComparison.InvariantCultureIgnoreCase));
             }
 
-            foreach (var type in types)
-            {
-                if (type.Name.Equals(typeName, StringComparison.InvariantCultureIgnoreCase))
-                {
-                    return type;
-                }
+			foreach (var type in types)
+            {				
+				if (type.Name.Equals(typeName, StringComparison.InvariantCultureIgnoreCase))
+				{
+					return type;
+				}				               
             }
 
             return null;
