@@ -18,7 +18,7 @@ namespace Our.Umbraco.SuperValueConverters.Helpers
 						} catch(Exception ex)
 						{						
 							Console.WriteLine(ex);
-							return Enumerable.Empty<Type>();
+							return Enumerable.Empty<Type>().ToArray();
 						}					
 					})
                 .Where(x => {

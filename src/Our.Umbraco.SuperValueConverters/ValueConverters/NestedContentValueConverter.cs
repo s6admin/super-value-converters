@@ -18,7 +18,7 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
 
         public override bool IsConverter(PublishedPropertyType propertyType)
         {
-			// S6
+			// S6 Adding some of our custom DataType definitions so they are recognized as NestedContent property editors (which they contain)
 			switch (propertyType.PropertyEditorAlias)
 			{
 				case Constants.PropertyEditors.NestedContentAlias:

@@ -84,10 +84,10 @@ namespace Our.Umbraco.SuperValueConverters.ValueConverters
                     var interfaces = types.Select(x => x
                             .GetInterfaces()
                             .Where(i => i.IsPublic));
-
-                    var sharedInterfaces = interfaces.IntersectMany();
-
-                    return sharedInterfaces.LastOrDefault();
+					
+					var sharedInterfaces = interfaces.IntersectAll(); // interfaces.IntersectMany();
+					
+                    return sharedInterfaces.LastOrDefault(); // S6 Does this just arbitrarily select the last type b/c only one is supported? If IntersectMany is used won't that filter out valid item types (ie. IPublishedContent with no other inherited compositions?)
                 }
             }
 
